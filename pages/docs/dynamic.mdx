@@ -1,0 +1,33 @@
+import React, { useEffect, useState } from "react";
+import { useData } from 'nextra/hooks'
+import DynamicContent from '../components/DynamicContent'
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import { serialize } from "next-mdx-remote/serialize";
+
+export function getStaticProps() {
+  return fetch('https://www.trustguid.com/api/contents/57?type=Document')
+    .then(res => res.json())
+    .then(repo => ({
+      props: {
+        ssg: {
+          stars: repo.content.Content
+        }
+      },
+      revalidate: 60
+    }))
+}
+
+export function MyButton () {
+const { stars } = useData()
+
+return (
+
+<div>
+  <br />
+  <br />
+  {stars}
+  <MDXRemote source={stars} />
+</div>
+) }
+
+<MyButton />

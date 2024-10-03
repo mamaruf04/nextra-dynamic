@@ -1,0 +1,21 @@
+import { useData } from 'nextra/hooks'
+
+export function getStaticProps() {
+  return fetch('https://api.github.com/repos/shuding/nextra')
+    .then(res => res.json())
+    .then(repo => ({
+      props: {
+        ssg: {
+          stars: repo.stargazers_count
+        }
+      },
+      revalidate: 60
+    }))
+}
+ 
+export function Stars() {
+  const { stars } = useData()
+  return <strong>{stars}</strong>
+}
+ 
+Nextra has <Stars /> stars on GitHub
